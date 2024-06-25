@@ -153,6 +153,7 @@ function Form() {
                                     rules={{ required: 'This field is required*' }}
                                     render={({ field }) => (
                                         <JoditEditor
+                                             {...field}
                                             value={field.value}
                                             onBlur={field.onBlur} // Send value to hook form onBlur
                                             onChange={field.onChange} // Send value to hook form onChange
@@ -182,10 +183,10 @@ function Form() {
                             <div key={i} className='d-flex justify-content-between position-relative' style={{ overflowX: "hidden" }}>
                                 <p>
                                     {list === "editorContent" ? (
-                                        <div>
+                                        <>
                                             <strong>{formatString(list)}:</strong>
-                                            <div dangerouslySetInnerHTML={{ __html: getValues(list) }} />
-                                        </div>
+                                            <span dangerouslySetInnerHTML={{ __html: getValues(list) }} />
+                                        </>
                                     ) : (
                                         <>
                                             <strong>{formatString(list)}:</strong>  {Array.isArray(getValues(list)) ? getValues(list)?.join(" - ") : getValues(list)}
