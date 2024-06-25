@@ -4,7 +4,7 @@ import { CFormCheck, CFormLabel, CFormFeedback, CCol } from '@coreui/react';
 
 const CheckboxGroup = ({ control, name, label, options, watch, errors }) => {
     return (
-        <CCol sm={12} className='CheckboxGroup'>
+        <CCol sm={12} className='CheckboxGroup' id= {name}>
             <CFormLabel className='fw-bold d-block'>
                 {label}<span className={`${watch(name)?.length > 0 ? "text-success" : "text-danger"}`}>*</span>
             </CFormLabel>

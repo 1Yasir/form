@@ -4,7 +4,7 @@ import { CFormSelect, CFormLabel, CFormFeedback, CCol } from '@coreui/react';
 const SelectField = (props) => {
     const { register, name, label, options, errors, watch } = props
     return (
-        <CCol sm={12} className='mb-2'>
+        <CCol sm={12} className='mb-2' id= {name}>
             <CFormLabel className='fw-bold' htmlFor={name}>
                 {label}<span className={`h4 ${watch(name)?.length > 0 ? "text-success" : "text-danger"}`}>*</span>
             </CFormLabel>

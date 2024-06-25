@@ -9,7 +9,7 @@ function InputField(props) {
     const { type, register, name, label, errors, watch } = props
 
     return (
-        <CCol sm={12} className='mb-2'>
+        <CCol sm={12} className='mb-2' id={name}>
             <CFormLabel htmlFor={name} className=' fw-bold'>
 
                 {label}<span className={`h4 ${watch(name)?.length > 0 ? "text-success" : "text-danger"}`}>*</span>
