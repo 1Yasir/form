@@ -4,9 +4,7 @@ import JoditEditor from 'jodit-react';
 import CheckboxGroup from './CheckboxGroup';
 import SelectField from './SelectField';
 import InputField from './InputField';
-import AddPay from './AddPay';
-import Model from './Model';
-import "../jobBoards.css";
+import "../jobBoards.css"
 import {
     CContainer,
     CRow,
@@ -14,7 +12,11 @@ import {
     CForm,
     CFormLabel,
     CButton,
-
+    CModal,
+    CModalBody,
+    CModalTitle,
+    CModalHeader,
+    CModalFooter
 } from "@coreui/react";
 
 function Form() {
@@ -26,11 +28,9 @@ function Form() {
         mode: "all"
     });
 
-
-
     const submit = (data) => {
         console.log(data);
-        reset();
+        // reset();
     }
 
     const jobPreview = () => {
@@ -38,6 +38,25 @@ function Form() {
         setPreviewList(Object.keys(getValues()));
     }
 
+
+    function formatString(str) {
+        // Split the string by spaces to process each word separately
+        const words = str.split(' ');
+
+        // Map over each word to capitalize the first letter and handle camel case
+        const formattedWords = words.map(word => {
+            // Capitalize the first letter of the word
+            let capitalized = word.charAt(0).toUpperCase() + word.slice(1);
+
+            // Insert spaces before uppercase letters
+            capitalized = capitalized.replace(/([A-Z])/g, ' $1').trim();
+
+            return capitalized;
+        });
+
+        // Join the formatted words back into a single string
+        return formattedWords.join(' ');
+    }
 
 
     return (
@@ -123,12 +142,6 @@ function Form() {
                                 watch={watch}
                             />
 
-                            <AddPay
-                                watch={watch}
-                                errors={errors}
-                                register={register}
-                            />
-
                             {/* this Controller is set for description (JoditEditor)  */}
 
                             <CCol sm={12} className='mb-3'>
@@ -140,7 +153,7 @@ function Form() {
                                     rules={{ required: 'This field is required*' }}
                                     render={({ field }) => (
                                         <JoditEditor
-                                            {...field}
+                                             {...field}
                                             value={field.value}
                                             onBlur={field.onBlur} // Send value to hook form onBlur
                                             onChange={field.onChange} // Send value to hook form onChange
@@ -157,21 +170,48 @@ function Form() {
                         </CRow>
                     </CForm>
                 </CCol>
-
-                {/* Model  */}
-
-                <Model
+                <CModal
                     visible={visible}
-                    previewList={previewList}
-                    getValues={getValues}
-                    setVisible={setVisible}
+                    onClose={() => setVisible(false)}
+                    aria-labelledby="LiveDemoExampleLabel"
+                >
+                    <CModalHeader>
+                        <CModalTitle id="LiveDemoExampleLabel">Preview Job Post</CModalTitle>
+                    </CModalHeader>
+                    <CModalBody>
+                        {previewList && previewList.map((list, i) => (
+                            <div key={i} className='d-flex justify-content-between position-relative' style={{ overflowX: "hidden" }}>
+                                <p>
+                                    {list === "editorContent" ? (
+                                        <>
+                                            <strong>{formatString(list)}:</strong>
+                                            <span dangerouslySetInnerHTML={{ __html: getValues(list) }} />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <strong>{formatString(list)}:</strong>  {Array.isArray(getValues(list)) ? getValues(list)?.join(" - ") : getValues(list)}
+                                        </>
+                                    )}
+                                </p>
+                                <a href={`#${list}`} onClick={() => setVisible(false)} className='position-absolute' style={{ right: 0 }}>----</a>
+                            </div>
+                        ))}
 
-
-                />
-
+                    </CModalBody>
+                    <CModalFooter>
+                        <CButton color="secondary" onClick={() => setVisible(false)}>
+                            Close
+                        </CButton>
+                    </CModalFooter>
+                </CModal>
             </CRow>
         </CContainer>
     );
 }
 
 export default Form;
+
+
+
+
+
