@@ -6,27 +6,34 @@ import SelectField from './SelectField';
 import InputField from './InputField';
 import AddPay from './AddPay';
 import Model from './Model';
+import Preferences from './Preferences';
 import "../jobBoards.css";
+import {
+    industryOptions,
+    hiringPeopleOptions,
+    jobLocationOptions,
+    jobTypesOptions,
+    experienceLevelOptions,
+    scheduleOptions
+}
+    from "../utils/helper"
 import {
     CContainer,
     CRow,
     CCol,
     CForm,
-    CFormLabel,
     CButton,
-
 } from "@coreui/react";
 
-function Form() {
 
+
+function Form() {
     const [visible, setVisible] = useState(false);
     const [previewList, setPreviewList] = useState([]);
 
     const { register, handleSubmit, formState: { errors }, watch, control, reset, getValues } = useForm({
         mode: "all"
     });
-
-
 
     const submit = (data) => {
         console.log(data);
@@ -38,7 +45,27 @@ function Form() {
         setPreviewList(Object.keys(getValues()));
     }
 
+    const renderSelectField = (name, label, options) => (
+        <SelectField
+            register={register}
+            name={name}
+            label={label}
+            options={options}
+            errors={errors}
+            watch={watch}
+        />
+    );
 
+    const renderCheckboxGroup = (name, label, options) => (
+        <CheckboxGroup
+            control={control}
+            name={name}
+            label={label}
+            options={options}
+            errors={errors}
+            watch={watch}
+        />
+    );
 
     return (
         <CContainer className='py-5'>
@@ -46,93 +73,30 @@ function Form() {
                 <CCol sm={6} className='offset-3'>
                     <CForm onSubmit={handleSubmit(submit)}>
                         <CRow>
-
-                            {/* this select field is set for companyIndustary  */}
-
-                            <SelectField
-                                register={register}
-                                name="companyIndustary"
-                                label="Company Industry"
-                                options={[
-                                    { value: "Software/Technology", label: "Software/Technology" },
-                                    { value: "Mobile App Development", label: "Mobile App Development" },
-                                    { value: "Artificial Intelligence", label: "Artificial Intelligence" },
-                                    { value: "Web Development", label: "Web Development" },
-                                    { value: "Cloud Computing", label: "Cloud Computing" },
-                                    { value: "E-commerce", label: "E-commerce" },
-                                ]}
-                                errors={errors}
-                                watch={watch}
-                            />
-
-                            {/* this input field is set for Title  */}
-
+                            <CCol>
+                                <h1 className='my-3 shadow-sm rounded py-2 px-3'>Create job</h1>
+                            </CCol>
+                            {renderSelectField("companyIndustary", "Company Industry", industryOptions)}
                             <InputField
                                 type="text"
                                 register={register}
                                 name="title"
-                                label="Title"
+                                label="Job Title"
                                 errors={errors}
                                 watch={watch}
                             />
-
-                            {/* this select field is set for Number of people to hire for this job*/}
-
-                            <SelectField
-                                register={register}
-                                name="hiringPeople"
-                                label="Number of people to hire for this job"
-                                options={[
-                                    { value: "1", label: "1" },
-                                    { value: "2", label: "2" },
-                                    { value: "3", label: "3" },
-                                    { value: "5", label: "5" },
-                                    { value: "7", label: "7" },
-                                    { value: "10", label: "10" },
-                                ]}
-                                errors={errors}
-                                watch={watch}
-                            />
-
-                            {/* this select field is set for Job location type**/}
-
-                            <SelectField
-                                register={register}
-                                name="jobLocation"
-                                label="Job location type"
-                                options={[
-                                    { value: "In person", label: "In person" },
-                                    { value: "Fully remote: no on-site work required", label: "Fully remote: no on-site work required" },
-                                    { value: "On the road", label: "On the road" },
-                                ]}
-                                errors={errors}
-                                watch={watch}
-                            />
-
-                            {/* this checkbox group is set for Job type**/}
-
-                            <CheckboxGroup
-                                control={control}
-                                name="jobTypes"
-                                label="Job Types"
-                                options={[
-                                    { value: "Full Time", label: "Full Time" },
-                                    { value: "Part Time", label: "Part Time" }
-                                ]}
-                                errors={errors}
-                                watch={watch}
-                            />
-
+                            {renderSelectField("hiringPeople", "Number of people to hire for this job", hiringPeopleOptions)}
+                            {renderSelectField("jobLocation", "Job location type", jobLocationOptions)}
+                            {renderCheckboxGroup("jobTypes", "Job Types", jobTypesOptions)}
+                            {renderCheckboxGroup("experienceLevel", "Experience Level", experienceLevelOptions)}
+                            {renderCheckboxGroup("Schedule", "Schedule", scheduleOptions)}
                             <AddPay
                                 watch={watch}
                                 errors={errors}
                                 register={register}
                             />
-
-                            {/* this Controller is set for description (JoditEditor)  */}
-
                             <CCol sm={12} className='mb-3'>
-                                <CFormLabel>Editor</CFormLabel>
+                                <h2 className='my-3 shadow-sm rounded py-2 px-3'>Describe the job</h2>
                                 <Controller
                                     name="editorContent"
                                     control={control}
@@ -142,14 +106,14 @@ function Form() {
                                         <JoditEditor
                                             {...field}
                                             value={field.value}
-                                            onBlur={field.onBlur} // Send value to hook form onBlur
-                                            onChange={field.onChange} // Send value to hook form onChange
+                                            onBlur={field.onBlur}
+                                            onChange={field.onChange}
                                         />
                                     )}
                                 />
-                                {errors.editorContent && <div style={{ color: 'red', fontSize: "0.875em", marginTop: "5px" }}>{errors.editorContent.message}</div>}
+                                {errors.editorContent && <div className="text-danger">{errors.editorContent.message}</div>}
                             </CCol>
-
+                            <Preferences />
                             <CCol className='mb-3'>
                                 <CButton color="secondary" onClick={jobPreview}>Preview</CButton>
                                 <CButton color="primary" type='submit' className='ms-3'>Submit Form</CButton>
@@ -157,18 +121,12 @@ function Form() {
                         </CRow>
                     </CForm>
                 </CCol>
-
-                {/* Model  */}
-
                 <Model
                     visible={visible}
                     previewList={previewList}
                     getValues={getValues}
                     setVisible={setVisible}
-
-
                 />
-
             </CRow>
         </CContainer>
     );
