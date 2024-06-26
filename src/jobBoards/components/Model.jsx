@@ -1,8 +1,6 @@
 import React from 'react';
 import { formatString } from "../utils/helper"
-
 import {
-
     CButton,
     CModal,
     CModalBody,
@@ -11,9 +9,8 @@ import {
     CModalFooter
 } from "@coreui/react";
 
-function Model(props) {
-    const { visible, previewList, getValues, setVisible  } = props;
-
+// Memoization to prevent unnecessary re-renders
+const Model = React.memo(({ visible, previewList, getValues, setVisible }) => {
     return (
         <CModal
             visible={visible}
@@ -34,14 +31,13 @@ function Model(props) {
                                 </>
                             ) : (
                                 <>
-                                    <strong>{formatString(list)}:</strong>  {Array.isArray(getValues(list)) ? getValues(list)?.join(" - ") : getValues(list)}
+                                    <strong>{formatString(list)}:</strong>  {Array.isArray(getValues(list)) ? getValues(list).join(" - ") : getValues(list)}
                                 </>
                             )}
                         </p>
                         <a href={`#${list}`} onClick={() => setVisible(false)} className='position-absolute' style={{ right: 0 }}>----</a>
                     </div>
                 ))}
-
             </CModalBody>
             <CModalFooter>
                 <CButton color="secondary" onClick={() => setVisible(false)}>
@@ -49,7 +45,7 @@ function Model(props) {
                 </CButton>
             </CModalFooter>
         </CModal>
-    )
-}
+    );
+});
 
-export default Model
+export default Model;

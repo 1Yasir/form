@@ -1,78 +1,66 @@
-import React from 'react';
+import React, { memo } from 'react';
 import SelectField from './SelectField';
 import InputField from './InputField';
 
-function AddPay(props) {
-    const { watch, errors, register } = props;
+const AddPay = ({ watch, errors, register }) => {
     const showPayBy = watch("ShowPayBy");
 
-    return (
+    const renderInputField = (name, label) => (
+        <InputField
+            type="number"
+            register={register}
+            name={name}
+            label={label}
+            errors={errors}
+            watch={watch}
+        />
+    );
 
+    const payOptions = [
+        { value: "Range", label: "Range" },
+        { value: "Starting amount", label: "Starting amount" },
+        { value: "Maximum amount", label: "Maximum amount" },
+        { value: "Exact amount", label: "Exact amount" },
+    ];
+
+    const rateOptions = [
+        { value: "per hour", label: "per hour" },
+        { value: "per day", label: "per day" },
+        { value: "per week", label: "per week" },
+    ];
+
+    return (
         <div className=''>
             <SelectField
                 register={register}
                 name="ShowPayBy"
                 label="Show pay by"
-                options={[
-                    { value: "Range", label: "Range" },
-                    { value: "Starting amount", label: "Starting amount" },
-                    { value: "Maximum amount", label: "Maximum amount" },
-                    { value: "Exact amount", label: "Exact amount" },
-                ]}
+                options={payOptions}
                 errors={errors}
                 watch={watch}
             />
 
             {/* Conditional rendering based on "ShowPayBy" value */}
             {showPayBy === "Range" && (
-                <div>
-                    <div className=''>
-                        <InputField
-                            type="number"
-                            register={register}
-                            name="Maximum"
-                            label="Maximum"
-                            errors={errors}
-                            watch={watch}
-                        />
-                        <span>to</span>
-                        <InputField
-                            type="number"
-                            register={register}
-                            name="Minimum"
-                            label="Minimum"
-                            errors={errors}
-                            watch={watch}
-                        />
-                    </div>
+                <div className=''>
+                    {renderInputField("maximum", "Maximum")}
+                    <span>to</span>
+                    {renderInputField("minimum", "Minimum")}
                 </div>
             )}
 
-            {showPayBy && showPayBy !== "Range" && (
-                <InputField
-                    type="number"
-                    register={register}
-                    name="Exact"
-                    label="Exact"
-                    errors={errors}
-                    watch={watch}
-                />
-            )}
+            {showPayBy && showPayBy !== "Range" && renderInputField("exact", "Amount")}
 
             <SelectField
                 register={register}
-                name="Rate"
+                name="rate"
                 label="Rate"
-                options={[
-                    { value: "per hour", label: "per hour" },
-                    { value: "per day", label: "per day" },
-                    { value: "per week", label: "per week" },
-                ]}
+                options={rateOptions}
                 errors={errors}
                 watch={watch}
             />
         </div>
-    )
-}
+    );
+};
 
-export default AddPay;
+export default memo(AddPay);
