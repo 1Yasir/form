@@ -106,4 +106,20 @@ export const benefitsOptions = [
     { value: "Professional development assistance", label: "Professional development assistance" },
     { value: "Employee assistance program", label: "Employee assistance program" },
 ]
+
+export const resumeOptions =  [
+    { value: "Yes , require a resume.", label: "Yes , require a resume." },
+    { value: "No, don't ask for a resume", label: "No, don't ask for a resume" },
+    { value: "Give the option to include a resume", label: "Give the option to include a resume" },
+]
+export const backgroundOptions =  [
+    { value: "Yes,this job requires a background check.", label: "Yes,this job requires a background check." },
+    { value: "No,this job does not  requires a background check", label: "No,this job does not  requires a background check" },
+]
+export const hireOptions =  [
+    { value: "1 to 3 days", label: "1 to 3 days" },
+    { value: "3 to 5 days", label: "3 to 5 days" },
+    { value: "5 to 10 days", label: "5 to 10 days" },
+   
+]
 export { formatString }
