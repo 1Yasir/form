@@ -71,5 +71,39 @@ export const scheduleOptions = [
     { value: "Night shift", label: "Night shift" },
     { value: "Evening shift", label: "Evening shift" },
 ];
+export const payOptions = [
+    { value: "Range", label: "Range" },
+    { value: "Starting amount", label: "Starting amount" },
+    { value: "Maximum amount", label: "Maximum amount" },
+    { value: "Exact amount", label: "Exact amount" },
+];
 
-export {formatString}
+export const rateOptions = [
+    { value: "per hour", label: "per hour" },
+    { value: "per day", label: "per day" },
+    { value: "per week", label: "per week" },
+];
+
+export const CompensationOptions = [
+    { value: "Yearly pay", label: "Yearly pay" },
+    { value: "Bonus opportunities", label: "Bonus opportunities" },
+    { value: "Monthly bonus", label: "Monthly bonus" },
+    { value: "Weekly Pay", label: "Weekly Pay" },
+    { value: "Yearly bonus", label: "Yearly bonus" },
+    { value: "Hourly pay", label: "Hourly pay" },
+    { value: "Overtime pay", label: "Overtime pay" },
+    { value: "Profit sharing", label: "Profit sharing" },
+    { value: "other", label: "other" },
+]
+export const benefitsOptions = [
+    { value: "Health insurance (12%)", label: "Health insurance (12%)" },
+    { value: "paid time off (9%)", label: "paid time off (9%)" },
+    { value: "Vision insurance", label: "Vision insurance" },
+    { value: "Flexible schedule", label: "Flexible scheudle" },
+    { value: "Life insurance", label: "Life insurance" },
+    { value: "Retirement plan", label: "Retirement plan" },
+    { value: "Health saving account", label: "Health saving account" },
+    { value: "Professional development assistance", label: "Professional development assistance" },
+    { value: "Employee assistance program", label: "Employee assistance program" },
+]
+export { formatString }

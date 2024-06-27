@@ -94,6 +94,7 @@ function Form() {
                                 watch={watch}
                                 errors={errors}
                                 register={register}
+                                control = {control}
                             />
                             <CCol sm={12} className='mb-3'>
                                 <h2 className='my-3 shadow-sm rounded py-2 px-3'>Describe the job</h2>
