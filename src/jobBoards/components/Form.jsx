@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom"
 import JoditEditor from 'jodit-react';
 import CheckboxGroup from './CheckboxGroup';
 import SelectField from './SelectField';
@@ -30,14 +33,42 @@ import {
 function Form() {
     const [visible, setVisible] = useState(false);
     const [previewList, setPreviewList] = useState([]);
+    const [activeJob, setActiveJob] = useState([]); //store all jobs 
+    const navigate = useNavigate();
+
 
     const { register, handleSubmit, formState: { errors }, watch, control, reset, getValues } = useForm({
         mode: "all"
     });
 
+    useEffect(() => {
+        const storedData = localStorage.getItem('activeJob');
+        if (storedData) {
+            setActiveJob(JSON.parse(storedData));
+
+        }
+    }, []);
+
+    console.log(activeJob);
+
     const submit = (data) => {
-        console.log(data);
-        reset();
+        if (false) {
+
+        } else {
+            data.submitDate = new Date();
+            const storeJob = [...activeJob, data];
+            localStorage.setItem('activeJob', JSON.stringify(storeJob));
+            setActiveJob(storeJob);
+            console.log(storeJob);
+            console.log(activeJob);
+            toast.success("Form has been updated successfully");
+            setTimeout(() => {
+                navigate('/active-jobs');
+            }, 2000);
+
+            // reset();
+        }
+
     }
 
     const jobPreview = () => {
@@ -115,7 +146,7 @@ function Form() {
                                 {errors.editorContent && <div className="text-danger">{errors.editorContent.message}</div>}
                             </CCol>
 
-
+                            
                             <Preferences
                                 register={register}
                                 watch={watch}
@@ -129,6 +160,8 @@ function Form() {
                         </CRow>
                     </CForm>
                 </CCol>
+                <ToastContainer autoClose={2000} />
+
                 <Model
                     visible={visible}
                     previewList={previewList}
