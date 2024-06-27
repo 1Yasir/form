@@ -3,7 +3,6 @@ import { Controller } from 'react-hook-form';
 import { CFormCheck, CFormLabel, CFormFeedback, CCol } from '@coreui/react';
 
 const CheckboxGroup = ({ control, name, label, options, watch, errors }) => {
-    console.log(label);
     return (
         <CCol sm={12} className='CheckboxGroup mb-3' id={name}>
             {

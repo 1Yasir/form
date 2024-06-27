@@ -94,7 +94,7 @@ function Form() {
                                 watch={watch}
                                 errors={errors}
                                 register={register}
-                                control = {control}
+                                control={control}
                             />
                             <CCol sm={12} className='mb-3'>
                                 <h2 className='my-3 shadow-sm rounded py-2 px-3'>Describe the job</h2>
@@ -114,7 +114,14 @@ function Form() {
                                 />
                                 {errors.editorContent && <div className="text-danger">{errors.editorContent.message}</div>}
                             </CCol>
-                            <Preferences />
+
+
+                            <Preferences
+                                register={register}
+                                watch={watch}
+                                errors={errors}
+
+                            />
                             <CCol className='mb-3'>
                                 <CButton color="secondary" onClick={jobPreview}>Preview</CButton>
                                 <CButton color="primary" type='submit' className='ms-3'>Submit Form</CButton>
