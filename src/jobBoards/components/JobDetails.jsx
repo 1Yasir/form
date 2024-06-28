@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation ,useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CIcon from '@coreui/icons-react';
 import { cilArrowRight } from "@coreui/icons";
-import { ToastContainer  ,toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import {
   CButton,
   CModal,
@@ -20,55 +20,49 @@ function JobDetails() {
 
   const queryParams = new URLSearchParams(location.search);
   const jobId = queryParams.get('id');
-  const [activeJob, setActiveJob] = useState(JSON.parse(localStorage.getItem('activeJob')) || null);
-  const closejob = JSON.parse(localStorage.getItem("closeJob")) || [];
+  const [activeJob, setActiveJob] = useState(JSON.parse(localStorage.getItem('activeJob')) || []);
+  const closeJob = JSON.parse(localStorage.getItem("closeJob")) || [];
 
-  const currentJob = activeJob && activeJob[jobId];
+  const currentJob = activeJob[jobId];
   const jobStatus = JSON.parse(localStorage.getItem("job-status"));
   const [visible, setVisible] = useState(false);
   const [dark, setDark] = useState('light');
-  const htmlContent =  currentJob?.editorContent;
+  const htmlContent = currentJob?.editorContent;
 
-  function deleteJob() {
+  useEffect(() => {
+    setActiveJob(JSON.parse(localStorage.getItem('activeJob')) || []);
+  }, []);
 
+  const updateLocalStorageAndState = (newActiveJobs, newCloseJobs, successMessage, redirectPath) => {
+    localStorage.setItem('activeJob', JSON.stringify(newActiveJobs));
+    localStorage.setItem('closeJob', JSON.stringify(newCloseJobs));
+    setActiveJob(newActiveJobs);
+    toast.success(successMessage);
+    setTimeout(() => {
+      navigate(redirectPath);
+    }, 500);
+  };
+
+  const deleteJob = () => {
     if (jobStatus === "active") {
-
-        const filteredJobs = activeJob.filter((job, i) => parseInt(jobId) !== i);
-        const deletedJob = activeJob.filter((job, i) => parseInt(jobId) === i);
-        const _0Index = deletedJob[0];
-        closejob.push(_0Index);
-        localStorage.setItem("closeJob", JSON.stringify(closejob));
-        setActiveJob(filteredJobs); // Update the state with filtered jobs
-        localStorage.setItem('activeJob', JSON.stringify(filteredJobs));
-        toast.success("Job has been closed....");
-        setTimeout(() => {
-            navigate('/active-jobs');
-        }, 500);
+      const updatedJobs = activeJob.filter((_, i) => parseInt(jobId) !== i);
+      const deletedJob = activeJob.find((_, i) => parseInt(jobId) === i);
+      closeJob.push(deletedJob);
+      updateLocalStorageAndState(updatedJobs, closeJob, "Job has been closed.", '/active-jobs');
     } else {
-        const filteredJobs = closejob.filter((job, i) => parseInt(id) !== i);
-        const deletedJob = closejob.filter((job, i) => parseInt(id) === i);
-        const _0Index = deletedJob[0];
-        setActiveJob((preVal) => ([...preVal, _0Index]));
-        localStorage.setItem("closeJob", JSON.stringify(filteredJobs));
-        localStorage.setItem('activeJob', JSON.stringify(activeJob));
-
-        toast.success("Job has been Re-open ....");
-        setTimeout(() => {
-            navigate('/close-jobs');
-        }, 500);
-
-
-
-
+      const updatedCloseJobs = closeJob.filter((_, i) => parseInt(jobId) !== i);
+      const reopenedJob = closeJob.find((_, i) => parseInt(jobId) === i);
+      const updatedActiveJobs = [...activeJob, reopenedJob];
+      updateLocalStorageAndState(updatedActiveJobs, updatedCloseJobs, "Job has been reopened.", '/close-jobs');
     }
-
-}
-
+  };
 
   const renderJobDetails = () => (
     <>
       <div className={`mb-3 border-bottom py-3 position-sticky ${dark === 'light' ? 'bg-white' : 'bg-dark'}`} style={{ top: "110px" }}>
-        <Link to={jobStatus === "active" ? `/active-jobs` : "/close-jobs"} className='btn btn-outline-info mb-4'>Back to {jobStatus === "active" ? "active" : "close"} jobs</Link>
+        <Link to={jobStatus === "active" ? `/active-jobs` : "/close-jobs"} className='btn btn-outline-info mb-4'>
+          Back to {jobStatus === "active" ? "active" : "close"} jobs
+        </Link>
         <h1 className='text-capitalize'>{currentJob?.title ?? ""}</h1>
         <div>
           <strong>Hostwinds</strong> <span>• 4.3★</span>
