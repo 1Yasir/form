@@ -5,15 +5,15 @@ import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react';
 const Breadcrumbs = () => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
+    const search = location.search;
 
     return (
         <CBreadcrumb>
             <CBreadcrumbItem>
-                <Link to="/">Home</Link>
+                <Link to={`/${search}`}>Home</Link>
             </CBreadcrumbItem>
             {pathnames.map((value, index) => {
-                const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-
+                const to = `/${pathnames.slice(0, index + 1).join('/')}${search}`;
                 return (
                     <CBreadcrumbItem key={to} active={index === pathnames.length - 1}>
                         {index === pathnames.length - 1 ? (

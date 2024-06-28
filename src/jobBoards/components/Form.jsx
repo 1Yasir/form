@@ -28,14 +28,16 @@ import {
   CButton,
 } from "@coreui/react";
 
-function Form() {
+function Form(props) {
+  const { pageTitle, initialValues, isEdit, index } = props;
   const [visible, setVisible] = useState(false);
   const [previewList, setPreviewList] = useState([]);
   const [activeJob, setActiveJob] = useState([]); //store all jobs 
   const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors }, watch, control, reset, getValues } = useForm({
-    mode: "all"
+    mode: "all",
+    defaultValues: initialValues
   });
 
   useEffect(() => {
@@ -46,14 +48,21 @@ function Form() {
   }, []);
 
   const submit = (data) => {
-    data.submitDate = new Date();
-    const storeJob = [...activeJob, data];
-    localStorage.setItem('activeJob', JSON.stringify(storeJob));
-    setActiveJob(storeJob);
-    toast.success("Form has been updated successfully");
-    setTimeout(() => {
-      navigate('/active-jobs');
-    }, 2000);
+    if (isEdit) {
+      const jobs = JSON.parse(localStorage.getItem("activeJob"));
+      const updatedJobs = jobs.map((job, i) => (i === parseInt(index) ? { ...data } : job));
+      localStorage.setItem('activeJob', JSON.stringify(updatedJobs));
+      setActiveJob(updatedJobs);
+      toast.success("Form has been updated successfully");
+    } else {
+      data.submitDate = new Date();
+      const storeJob = [...activeJob, data];
+      localStorage.setItem('activeJob', JSON.stringify(storeJob));
+      setActiveJob(storeJob);
+      toast.success("Form has been submit successfully");
+    }
+    setTimeout(() => navigate('/active-jobs'), 2000);
+
   };
 
   const jobPreview = () => {
@@ -86,13 +95,13 @@ function Form() {
   return (
     <CContainer className='py-5'>
       <Breadcrumbs /> {/* Added breadcrumb component */}
-      
+
       <CRow>
         <CCol sm={6} className='offset-3'>
           <CForm onSubmit={handleSubmit(submit)}>
             <CRow>
               <CCol>
-                <h1 className='my-3 shadow-sm rounded py-2 px-3'>Create job</h1>
+                <h1 className='my-3 shadow-sm rounded py-2 px-3'>{pageTitle}</h1>
               </CCol>
               {renderSelectField("companyIndustary", "Company Industry", industryOptions)}
               <InputField
