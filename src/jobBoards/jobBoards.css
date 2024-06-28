@@ -6,3 +6,9 @@
     margin-right: 5px;
     margin-bottom: 5px;
 }
+.link{
+    text-decoration: none;
+    margin-left: 6px;
+    text-transform: uppercase;
+    color: #202020;
+}
