@@ -1,13 +1,15 @@
 import React, { useEffect, useState, memo } from 'react';
 import { Link } from "react-router-dom";
-import { cilPlus, cilStar } from "@coreui/icons";
+import { cilStar } from "@coreui/icons";
 import CIcon from '@coreui/icons-react';
 import { formatDistanceToNow } from 'date-fns';
-import { CCol, CCard, CCardBody, CCardTitle, CCardFooter, CButton } from "@coreui/react";
+import { CCol, CCard, CCardBody, CCardFooter, CButton } from "@coreui/react";
 
-const JobCard = memo(({ job, index }) => {
+const JobCard = memo(({ job, index , jobStatue }) => {
     const [isNew, setIsNew] = useState(false);
     const htmlContent = job.editorContent;
+    localStorage.setItem("job-status", JSON.stringify(jobStatue));
+
 
     useEffect(() => {
         const postTime = new Date(job.submitDate);

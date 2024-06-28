@@ -56,7 +56,7 @@ const ActiveJob = () => {
                     <CRow sm={{ cols: 1 }} md={{ cols: 3 }}>
                         {filteredJobs.map((job, index) => (
                             <CCol key={index}>
-                                <JobCard index={index} job={job} />
+                                <JobCard index={index} job={job} jobStatue = "active" />
                             </CCol>
                         ))}
                     </CRow>

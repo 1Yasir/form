@@ -12,3 +12,61 @@
     text-transform: uppercase;
     color: #202020;
 }
+
+
+  
+  .find_candidate:hover {
+    background-color: #fff !important;
+    border-radius: 10px !important;
+  }
+  
+  
+  .add_job {
+    border: none;
+    display: inline-flex;
+    padding: 0.75rem 1.5rem;
+    background-color: #488aec;
+    color: #ffffff;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    user-select: none;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+    transition: all .6s ease;
+  }
+  
+  .add_job:hover {
+    box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+  }
+  
+  .add_job:focus,
+  .add_job:active {
+    opacity: .85;
+    box-shadow: none;
+  }
+  
+  .add_job svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  
+  .modalList {
+    overflow: auto;
+  }
+  
+  .jobCard {
+  
+    transition: all .3s ease-out;
+  }
+  .jobCard:hover {
+    box-shadow: 0 0 3px grey;
+  }
+  
+  
