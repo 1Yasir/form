@@ -9,7 +9,7 @@ function EditJob() {
     const jobId = queryParams.get('id');
     const activeJob = JSON.parse(localStorage.getItem("activeJob"));
     const initialValues = activeJob[jobId];
-    const editJob = true;
+    const editJob = true
 
 
     return (
