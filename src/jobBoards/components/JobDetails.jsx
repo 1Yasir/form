@@ -10,7 +10,6 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
-  CCol
 } from "@coreui/react";
 import Breadcrumbs from './Breadcrumbs';
 
