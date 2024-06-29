@@ -24,6 +24,7 @@ function InputField(props) {
                 invalid={errors[name] ? true : false}
                 feedbackValid="Looks good..."
                 feedbackInvalid="This field is required*"
+                {...(type === "number" && { min: 0  })}
             />
         </CCol>
     )

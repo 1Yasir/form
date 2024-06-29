@@ -10,7 +10,6 @@ import InputField from './InputField';
 import AddPay from './AddPay';
 import Model from './Model';
 import Preferences from './Preferences';
-import Breadcrumbs from '../components/Breadcrumbs';
 import "../jobBoards.css";
 import {
   industryOptions,
@@ -18,7 +17,8 @@ import {
   jobLocationOptions,
   jobTypesOptions,
   experienceLevelOptions,
-  scheduleOptions
+  scheduleOptions,
+  expectedHoursOptions
 } from "../utils/helper";
 import {
   CContainer,
@@ -92,9 +92,11 @@ function Form(props) {
     />
   );
 
+  const expectedHours = watch("jobTypes");
+
+
   return (
     <CContainer className='py-5'>
-      <Breadcrumbs /> {/* Added breadcrumb component */}
 
       <CRow>
         <CCol sm={6} className='offset-3'>
@@ -114,7 +116,26 @@ function Form(props) {
               />
               {renderSelectField("hiringPeople", "Number of people to hire for this job", hiringPeopleOptions)}
               {renderSelectField("jobLocation", "Job location type", jobLocationOptions)}
-              {renderCheckboxGroup("jobTypes", "Job Types", jobTypesOptions)}
+              <div className="jobTypes">
+                {renderCheckboxGroup("jobTypes", "Job Types", jobTypesOptions)}
+
+                {watch("jobTypes")?.includes("Part Time") && (
+                  <>
+                    {renderSelectField("expectedHours", "Expected hours", expectedHoursOptions)}
+                    {watch("expectedHours") === "Fixed hours" && (
+                      <InputField
+                        type="number"
+                        register={register}
+                        name="fixedHours"
+                        label="Hours per week"
+                        errors={errors}
+                        watch={watch}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+
               {renderCheckboxGroup("experienceLevel", "Experience Level", experienceLevelOptions)}
               {renderCheckboxGroup("Schedule", "Schedule", scheduleOptions)}
               <AddPay
