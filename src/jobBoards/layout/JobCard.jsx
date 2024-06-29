@@ -5,10 +5,10 @@ import CIcon from '@coreui/icons-react';
 import { formatDistanceToNow } from 'date-fns';
 import { CCol, CCard, CCardBody, CCardFooter, CButton } from "@coreui/react";
 
-const JobCard = memo(({ job, index , jobStatue }) => {
+const JobCard = memo(({ job, index , jobStatus }) => {
     const [isNew, setIsNew] = useState(false);
     const htmlContent = job.editorContent;
-    localStorage.setItem("job-status", JSON.stringify(jobStatue));
+    localStorage.setItem("job-status", JSON.stringify(jobStatus));
 
 
     useEffect(() => {

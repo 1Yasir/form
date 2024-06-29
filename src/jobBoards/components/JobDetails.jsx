@@ -11,7 +11,6 @@ import {
   CModalBody,
   CModalFooter,
 } from "@coreui/react";
-import Breadcrumbs from './Breadcrumbs';
 
 function JobDetails() {
   const location = useLocation();
@@ -107,7 +106,6 @@ function JobDetails() {
 
   return (
     <div>
-      <Breadcrumbs />
       {!activeJob ? (
         <div>Loading...</div>
       ) : (

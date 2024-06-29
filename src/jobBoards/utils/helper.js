@@ -122,4 +122,9 @@ export const hireOptions =  [
     { value: "5 to 10 days", label: "5 to 10 days" },
    
 ]
+export const  expectedHoursOptions  =  [
+    { value: "Fixed hours", label: "Fixed hours" },
+    { value: "Flexible hours", label: "Flexible hours" },
+    
+]
 export { formatString }

@@ -35,6 +35,7 @@ function Header() {
                             <CDropdownMenu>
                                 {/* <CDropdownItem> */}
                                     <NavLink to="/active-jobs" className="link">active-jobs</NavLink>
+                                    <NavLink to="/close-jobs" className="link">close-jobs</NavLink>
                                 {/* </CDropdownItem> */}
                         
                                
