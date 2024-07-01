@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// Form.js
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,6 +28,7 @@ import {
   CForm,
   CButton,
 } from "@coreui/react";
+import AsideBar from './AsideBar';
 
 function Form(props) {
   const { pageTitle, initialValues, isEdit, index } = props;
@@ -34,6 +36,7 @@ function Form(props) {
   const [previewList, setPreviewList] = useState([]);
   const [activeJob, setActiveJob] = useState([]); //store all jobs 
   const navigate = useNavigate();
+  const [activeLink, setActiveLink] = useState("");
 
   const { register, handleSubmit, formState: { errors }, watch, control, reset, getValues } = useForm({
     mode: "all",
@@ -45,7 +48,38 @@ function Form(props) {
     if (storedData) {
       setActiveJob(JSON.parse(storedData));
     }
+    setPreviewList(Object.keys(getValues()));
+
   }, []);
+
+  // useEffect(() => {
+  //   const sections = previewList.map((link) => document.getElementById(link));
+  //   const observerOptions = {
+  //     root: null,
+  //     rootMargin: '0px',
+  //     threshold: 0.1 // Adjust this value according to your needs
+  //   };
+    
+  //   const observerCallback = (entries) => {
+  //     entries.forEach(entry => {
+  //       if (entry.isIntersecting) {
+  //         setActiveLink(entry.target.id);
+  //       }
+  //     });
+  //   };
+    
+  //   const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+  //   sections.forEach(section => {
+  //     if (section) observer.observe(section);
+  //   });
+    
+  //   return () => {
+  //     sections.forEach(section => {
+  //       if (section) observer.unobserve(section);
+  //     });
+  //   };
+  // }, [previewList]);
 
   const submit = (data) => {
     if (isEdit) {
@@ -92,13 +126,9 @@ function Form(props) {
     />
   );
 
-  const expectedHours = watch("jobTypes");
-
-
   return (
     <CContainer className='py-5'>
-
-      <CRow>
+      <CRow className='align-items-start'>
         <CCol sm={6} className='offset-3'>
           <CForm onSubmit={handleSubmit(submit)}>
             <CRow>
@@ -174,6 +204,11 @@ function Form(props) {
             </CRow>
           </CForm>
         </CCol>
+
+        <AsideBar
+          links={previewList}
+          activeLink={activeLink}
+        />
         <ToastContainer autoClose={2000} />
         <Model
           visible={visible}
